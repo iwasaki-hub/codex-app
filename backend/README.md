@@ -5,7 +5,8 @@ Express API server.
 ```bash
 cd backend
 npm install
+cp .env.example .env
 npm run dev
 ```
 
-The server listens on port `3000` by default. Set `PORT` to use a different port. `GET /health` returns `{ "status": "ok" }`.
+The server loads `backend/.env` on startup. `.env.example` provides `PORT=3000` and `NODE_ENV=development`; `PORT` defaults to `3000` if it is omitted. Keep secrets in `.env`, which is ignored by Git. `GET /health` returns `{ "status": "ok" }`.
