@@ -1,0 +1,25 @@
+{
+  "name": "codex-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently --kill-others -n MOCK,API,WEB -c blue,green,magenta \"npm --prefix backend run mock:api\" \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iwasaki-hub/codex-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/iwasaki-hub/codex-app/issues"
+  },
+  "homepage": "https://github.com/iwasaki-hub/codex-app#readme",
+  "dependencies": {
+    "concurrently": "^10.0.6"
+  }
+}

@@ -1,16 +1,9 @@
-require("dotenv").config({ path: require("node:path").resolve(__dirname, "../.env") });
+const { assertAuthSecrets, config } = require("./config/env");
 
-const express = require("express");
+assertAuthSecrets();
 
-const app = express();
-const port = Number(process.env.PORT) || 3000;
+const app = require("./app");
 
-app.use(express.json());
-
-app.get("/health", (_request, response) => {
-  response.json({ status: "ok" });
-});
-
-app.listen(port, () => {
-  console.log(`Backend server is listening on port ${port}`);
+app.listen(config.port, "127.0.0.1", () => {
+  console.log(`Backend server is listening on http://127.0.0.1:${config.port}`);
 });

@@ -1,0 +1,14 @@
+{
+  "posts": [],
+  "comments": [],
+  "profile": {},
+  "users": [
+    {
+      "name": "mario",
+      "email": "mario@gmail.com",
+      "passwordHash": "$2b$12$UhGjtrdYoEqEAjkIZTNa/OLECWrFB4LjlD6zK.oKoBByF5KfpkcLa",
+      "createdAt": "2026-10-13T15:54:53.237Z",
+      "id": 1
+    }
+  ]
+}

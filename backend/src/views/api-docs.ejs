@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f8fb">
+    <meta name="description" content="codex-app REST API の使い方とエンドポイント一覧">
+    <title>codex-app API — Documentation</title>
+    <link rel="stylesheet" href="/docs-assets/api-docs.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="codex-app API ドキュメントの先頭へ">
+        <span class="brand-mark" aria-hidden="true">C</span>
+        <span>codex-app <span class="brand-divider">/</span> API</span>
+      </a>
+      <nav class="top-links" aria-label="ページ内ナビゲーション">
+        <a href="#quickstart">はじめに</a>
+        <a href="#authentication">認証</a>
+        <a href="#posts">ブログ</a>
+        <a class="github-link" href="/health">API 状態 <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot"></span> LOCAL REST API</p>
+          <h1>小さく始めて、<br><span>すぐにつながる API。</span></h1>
+          <p class="hero-description">
+            認証とブログ記事のための REST API。JSON を送って、必要なデータを受け取れます。
+          </p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#quickstart">使い方を見る <span aria-hidden="true">↓</span></a>
+            <a class="text-button" href="#endpoints">エンドポイント一覧 <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="base-url">
+            <span>BASE URL</span>
+            <code><%= baseUrl %></code>
+          </div>
+        </div>
+
+        <div class="hero-card" aria-label="API リクエストの例">
+          <div class="terminal-bar">
+            <div class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span>request.json</span>
+            <span class="terminal-method">GET</span>
+          </div>
+          <pre><code><span class="code-muted">// 公開記事を取得</span>
+fetch(<span class="code-string">'<%= baseUrl %>/api/posts'</span>)
+  .then(response =&gt; response.json())
+  .then(data =&gt; console.log(data.posts))</code></pre>
+          <div class="terminal-response">
+            <div class="response-label"><span>RESPONSE</span><span class="response-status">200 OK</span></div>
+            <pre><code>{
+  <span class="code-key">"posts"</span>: [
+    {
+      <span class="code-key">"id"</span>: <span class="code-number">3</span>,
+      <span class="code-key">"title"</span>: <span class="code-string">"Welcome"</span>,
+      <span class="code-key">"isPublished"</span>: <span class="code-bool">true</span>
+    }
+  ]
+}</code></pre>
+          </div>
+          <div class="hero-card-footer"><span class="response-check">✓</span> JSON を返すシンプルな API</div>
+        </div>
+        <div class="hero-glow" aria-hidden="true"></div>
+      </section>
+
+      <section class="quickstart section-wrap" id="quickstart">
+        <div class="section-heading">
+          <p class="eyebrow">QUICK START</p>
+          <h2>まずは 1 回、リクエスト。</h2>
+          <p>開発サーバーを起動したら、次の URL から API を利用できます。</p>
+        </div>
+        <div class="quickstart-grid">
+          <article class="quickstart-card">
+            <span class="step-number">01</span>
+            <h3>認証なしで確認</h3>
+            <p>公開ブログ記事は認証なしで取得できます。</p>
+            <pre><code>curl <span class="code-string"><%= baseUrl %>/api/posts</span></code></pre>
+          </article>
+          <article class="quickstart-card">
+            <span class="step-number">02</span>
+            <h3>アカウントを作成</h3>
+            <p>登録すると、以降の保護された API にアクセスできます。</p>
+            <pre><code>POST <span class="code-string">/api/auth/register</span>
+Content-Type: application/json</code></pre>
+          </article>
+          <article class="quickstart-card">
+            <span class="step-number">03</span>
+            <h3>トークンを付けて送信</h3>
+            <p>ログインで取得した JWT を Bearer トークンとして送ります。</p>
+            <pre><code>Authorization: Bearer <span class="code-token">&lt;token&gt;</span></code></pre>
+          </article>
+        </div>
+      </section>
+
+      <section class="endpoint-section section-wrap" id="endpoints">
+        <div class="section-heading">
+          <p class="eyebrow">ENDPOINTS</p>
+          <h2>必要なルートを、ひと目で。</h2>
+          <p>保護されたルートでは、ログインで取得した JWT が必要です。</p>
+        </div>
+
+        <div class="endpoint-group" id="authentication">
+          <div class="group-title">
+            <span class="group-icon auth-icon" aria-hidden="true">↗</span>
+            <div><h3>Authentication</h3><p>アカウントとセッション</p></div>
+          </div>
+          <article class="endpoint-card">
+            <div class="endpoint-summary"><span class="method post">POST</span><code>/api/auth/register</code><span class="endpoint-note">アカウント登録</span></div>
+            <div class="endpoint-detail">
+              <p>名前、メールアドレス、パスワードでアカウントを作成します。成功するとユーザー情報と JWT を返します。</p>
+              <div class="code-columns">
+                <div><span class="code-caption">REQUEST BODY</span><pre><code>{
+  <span class="code-key">"name"</span>: <span class="code-string">"Hanako"</span>,
+  <span class="code-key">"email"</span>: <span class="code-string">"hanako@example.com"</span>,
+  <span class="code-key">"password"</span>: <span class="code-string">"password123"</span>
+}</code></pre></div>
+                <div><span class="code-caption">RESPONSE · 201</span><pre><code>{
+  <span class="code-key">"user"</span>: {
+    <span class="code-key">"id"</span>: <span class="code-string">"1"</span>,
+    <span class="code-key">"name"</span>: <span class="code-string">"Hanako"</span>,
+    <span class="code-key">"email"</span>: <span class="code-string">"hanako@example.com"</span>
+  },
+  <span class="code-key">"token"</span>: <span class="code-string">"&lt;jwt&gt;"</span>
+}</code></pre></div>
+              </div>
+              <p class="endpoint-footnote">パスワードは8文字以上、UTF-8で72バイト以内です。</p>
+            </div>
+          </article>
+
+          <article class="endpoint-card">
+            <div class="endpoint-summary"><span class="method post">POST</span><code>/api/auth/login</code><span class="endpoint-note">ログイン</span></div>
+            <div class="endpoint-detail">
+              <p>登録済みのメールアドレスとパスワードでログインします。</p>
+              <pre><code>{ <span class="code-key">"email"</span>: <span class="code-string">"hanako@example.com"</span>, <span class="code-key">"password"</span>: <span class="code-string">"password123"</span> }</code></pre>
+              <p class="endpoint-footnote">成功時は <code>user</code> と有効期限1時間の <code>token</code> を返します。</p>
+            </div>
+          </article>
+
+          <article class="endpoint-card">
+            <div class="endpoint-summary"><span class="method get">GET</span><code>/api/auth/me</code><span class="auth-required">認証が必要</span><span class="endpoint-note">ログイン中のユーザー</span></div>
+            <div class="endpoint-detail"><p>Bearer トークンに対応するユーザー情報を返します。</p><pre><code>Authorization: Bearer <span class="code-token">&lt;token&gt;</span></code></pre></div>
+          </article>
+        </div>
+
+        <div class="endpoint-group" id="posts">
+          <div class="group-title">
+            <span class="group-icon posts-icon" aria-hidden="true">✎</span>
+            <div><h3>Blog posts</h3><p>公開記事と自分の記事</p></div>
+          </div>
+          <article class="endpoint-card">
+            <div class="endpoint-summary"><span class="method get">GET</span><code>/api/posts</code><span class="endpoint-note">記事一覧</span></div>
+            <div class="endpoint-detail"><p>公開記事を返します。JWT を付けると、自分の非公開記事も一覧に含まれます。</p><pre><code><span class="code-muted">// すべての公開記事</span>
+fetch(<span class="code-string">'<%= baseUrl %>/api/posts'</span>)</code></pre></div>
+          </article>
+
+          <article class="endpoint-card">
+            <div class="endpoint-summary"><span class="method post">POST</span><code>/api/posts</code><span class="auth-required">認証が必要</span><span class="endpoint-note">記事を投稿</span></div>
+            <div class="endpoint-detail">
+              <p>記事を作成します。投稿者はトークンから設定されます。<code>isPublished</code> を省略すると公開記事になります。</p>
+              <pre><code>{
+  <span class="code-key">"title"</span>: <span class="code-string">"はじめての投稿"</span>,
+  <span class="code-key">"content"</span>: <span class="code-string">"記事の本文"</span>,
+  <span class="code-key">"isPublished"</span>: <span class="code-bool">true</span>
+}</code></pre>
+              <p class="endpoint-footnote">タイトルは120文字以内、本文は20,000文字以内です。</p>
+            </div>
+          </article>
+
+          <article class="endpoint-card">
+            <div class="endpoint-summary"><span class="method patch">PATCH</span><code>/api/posts/:id/visibility</code><span class="auth-required">投稿者のみ</span><span class="endpoint-note">公開状態を変更</span></div>
+            <div class="endpoint-detail"><p>記事の投稿者本人だけが公開・非公開を切り替えられます。</p><pre><code>{ <span class="code-key">"isPublished"</span>: <span class="code-bool">false</span> }</code></pre></div>
+          </article>
+        </div>
+
+        <div class="status-strip">
+          <span class="status-dot"></span>
+          <span>API status</span>
+          <a href="/health"><code>GET /health</code> <span aria-hidden="true">↗</span></a>
+          <span class="status-description">認証不要でサーバーの稼働状態を確認できます。</span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true">C</span><span>codex-app <span class="brand-divider">/</span> API</span></a>
+      <span>開発用 API ドキュメント</span>
+      <a href="#top">ページの先頭へ ↑</a>
+    </footer>
+  </body>
+</html>

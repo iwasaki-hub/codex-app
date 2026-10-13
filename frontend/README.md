@@ -1,16 +1,13 @@
-# React + Vite
+# Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite client for the codex-app authentication flow.
 
-Currently, two official plugins are available:
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The development server runs at `http://localhost:5173` and proxies `/api` requests to the Express backend at `http://127.0.0.1:3000`. Start the backend and its JSON Server data store using the instructions in `backend/README.md`.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The public landing page is at `/`; the authentication screens use `/login` and `/register`. `/dashboard` is protected by the auth context. Blog posts at `/posts` are publicly readable; signed-in users can publish articles and choose whether each one is public or private. Requests go through the shared Axios client in `src/lib/apiClient.js`.
